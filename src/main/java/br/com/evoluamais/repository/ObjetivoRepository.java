@@ -51,7 +51,8 @@ public class ObjetivoRepository {
                 if (!r.next()) throw semConta();
                 var perfil = new LinkedHashMap<String, Object>();
                 perfil.put("idEstudante", r.getInt("id_estudante"));
-                perfil.put("idProva", r.getInt("id_prova"));
+                int idProva = r.getInt("id_prova");
+                perfil.put("idProva", r.wasNull() ? null : idProva);
                 perfil.put("nome", r.getString("nome"));
                 perfil.put("objetivo", r.getString("objetivo_prova"));
                 perfil.put("objetivos", Arrays.stream(ObjetivoProva.values()).map(o -> Map.of(

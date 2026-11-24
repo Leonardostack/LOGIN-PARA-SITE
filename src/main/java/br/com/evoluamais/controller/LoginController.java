@@ -16,9 +16,8 @@ public class LoginController {
 
     private final EstudanteRepository estudanteRepository;
 
-    public LoginController() {
-        this.estudanteRepository =
-                new EstudanteRepository();
+    public LoginController(EstudanteRepository estudanteRepository) {
+        this.estudanteRepository = estudanteRepository;
     }
 
     @PostMapping

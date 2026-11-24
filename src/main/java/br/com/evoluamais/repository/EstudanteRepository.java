@@ -4,27 +4,39 @@ import br.com.evoluamais.config.ConexaoBanco;
 import br.com.evoluamais.model.Estudante;
 import br.com.evoluamais.model.Usuario;
 import br.com.evoluamais.service.SenhaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 
+@Repository
 public class EstudanteRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EstudanteRepository.class);
 
-    public Integer provaInicial() {
-        String sql = "SELECT id_prova FROM prova WHERE tipo='ETEC' AND status_importacao='VALIDADA' ORDER BY ano DESC,semestre DESC,id_prova DESC LIMIT 1";
-        try (var c = ConexaoBanco.conectar(); var s = c.prepareStatement(sql); var r = s.executeQuery()) {
-            return r.next() ? r.getInt(1) : null;
-        } catch (SQLException e) {
-            return null;
-        }
+    @FunctionalInterface
+    public interface Conexoes {
+        Connection abrir() throws SQLException;
     }
 
     private final SenhaService senhaService;
+    private final Conexoes conexoes;
 
+    @Autowired
     public EstudanteRepository() {
+        this(ConexaoBanco::conectar);
+    }
+
+    public EstudanteRepository(Conexoes conexoes) {
+        this.conexoes = conexoes;
         this.senhaService = new SenhaService();
     }
 
@@ -46,7 +58,7 @@ public class EstudanteRepository {
                 LIMIT 1
                 """;
 
-        try (Connection conexao = ConexaoBanco.conectar();
+        try (Connection conexao = conexoes.abrir();
              PreparedStatement comando =
                      conexao.prepareStatement(sql)) {
 
@@ -127,12 +139,7 @@ public class EstudanteRepository {
             }
 
         } catch (SQLException e) {
-
-            System.out.println(
-                    "Erro ao realizar login:"
-            );
-
-            e.printStackTrace();
+            throw indisponivel("realizar login", e);
         }
 
         return null;
@@ -154,7 +161,7 @@ public class EstudanteRepository {
                 senhaService.gerarHash(senha);
 
         try (Connection conexao =
-                     ConexaoBanco.conectar();
+                     conexoes.abrir();
 
              PreparedStatement comando =
                      conexao.prepareStatement(sql)) {
@@ -169,12 +176,7 @@ public class EstudanteRepository {
             );
 
         } catch (SQLException e) {
-
-            System.out.println(
-                    "Erro ao atualizar senha:"
-            );
-
-            e.printStackTrace();
+            LOGGER.error("Falha ao atualizar senha antiga. SQLState: {}", e.getSQLState());
         }
     }
 
@@ -190,7 +192,7 @@ public class EstudanteRepository {
                 """;
 
         try (Connection conexao =
-                     ConexaoBanco.conectar();
+                     conexoes.abrir();
 
              PreparedStatement comando =
                      conexao.prepareStatement(sql)) {
@@ -203,14 +205,7 @@ public class EstudanteRepository {
             return resultado.next();
 
         } catch (SQLException e) {
-
-            System.out.println(
-                    "Erro ao verificar e-mail:"
-            );
-
-            e.printStackTrace();
-
-            return true;
+            throw indisponivel("verificar o e-mail", e);
         }
     }
 
@@ -220,7 +215,7 @@ public class EstudanteRepository {
             String nome,
             String email,
             String senha,
-            int idProva) {
+            Integer idProva) {
 
         String sqlUsuario = """
                 INSERT INTO usuario
@@ -239,7 +234,7 @@ public class EstudanteRepository {
         try {
 
             conexao =
-                    ConexaoBanco.conectar();
+                    conexoes.abrir();
 
             conexao.setAutoCommit(false);
 
@@ -303,10 +298,11 @@ public class EstudanteRepository {
                         idUsuario
                 );
 
-                comandoEstudante.setInt(
-                        2,
-                        idProva
-                );
+                if (idProva == null) {
+                    comandoEstudante.setNull(2, Types.INTEGER);
+                } else {
+                    comandoEstudante.setInt(2, idProva);
+                }
 
                 comandoEstudante.executeUpdate();
 
@@ -379,14 +375,7 @@ public class EstudanteRepository {
             }
 
 
-            System.out.println(
-                    "Erro ao cadastrar estudante:"
-            );
-
-            e.printStackTrace();
-
-            return null;
-
+            throw indisponivel("cadastrar estudante", e);
 
         } finally {
 
@@ -398,10 +387,17 @@ public class EstudanteRepository {
                     conexao.close();
 
                 } catch (SQLException e) {
-
-                    e.printStackTrace();
+                    LOGGER.error("Falha ao encerrar conexao. SQLState: {}", e.getSQLState());
                 }
             }
         }
+    }
+
+    private ResponseStatusException indisponivel(String operacao, SQLException erro) {
+        LOGGER.error("Falha ao {}. SQLState: {}", operacao, erro.getSQLState());
+        return new ResponseStatusException(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                "O banco de dados está indisponível. Tente novamente mais tarde."
+        );
     }
 }

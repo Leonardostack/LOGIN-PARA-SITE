@@ -8,10 +8,11 @@ Railway. O codigo continua no GitHub, compartilhado entre os integrantes.
 ### Escolha de objetivo no primeiro acesso
 
 Antes de publicar esta versao em um banco ja existente, aplicar **uma vez**
-`database/05_objetivo_estudante.sql`. A migracao apenas acrescenta a coluna
-nullable `estudante.objetivo_prova`; nao atualiza contas existentes e preserva
-as provas, questoes, respostas e simulados. Em instalacoes novas, a coluna ja
-esta em `01_estrutura.sql`.
+`database/05_objetivo_estudante.sql` e
+`database/06_prova_estudante_opcional.sql`. A primeira acrescenta a coluna
+nullable `estudante.objetivo_prova`; a segunda permite cadastrar estudantes
+antes da importacao de provas. Nenhuma altera contas existentes ou remove
+dados. Em instalacoes novas, ambas ja estao configuradas em `01_estrutura.sql`.
 
 No primeiro login apos a atualizacao, cada aluno escolhe ETEC, ENEM, Concurso
 publico ou FUVEST. A escolha fica na conta e vale em outros dispositivos.
@@ -26,15 +27,15 @@ vem da sessao, nunca de um ID informado pelo navegador. A criacao de simulados
 exige o objetivo ETEC salvo, incluindo os aliases antigos. Trocar de objetivo
 e voltar nao antecipa os sete dias nem recria a tentativa.
 
-Validacao local desta versao: 23 testes Java aprovados e sintaxe JavaScript
-conferida. Aplique a migracao antes do deploy e valide a escolha, a troca e a
-persistencia apos novo login na API publicada.
+Antes de publicar, execute `mvn test`. Apos o deploy, valide a criacao da conta,
+o login, a escolha de objetivo e a persistencia apos novo login na API publicada.
 
 ### Hospedagem
 
 - Site: [Entrar no Evolua+](https://evoluamais-api.onrender.com/log.html).
 - API: `https://evoluamais-api.onrender.com`; as telas e a API usam o mesmo dominio.
-- Render: `evoluamais-api`, Docker, branch `main`, plano Free, regiao Virginia.
+- Render: `evoluamais-api`, Web Service com Docker, branch `main`, plano Free,
+  regiao Virginia.
 - Health check: `/usuarios/teste`.
 - Banco compartilhado: `evoluamais` no Railway, ja com 16 edicoes ETEC,
   790 questoes importadas e 787 validas. Nao repita a criacao ou a importacao.
@@ -122,11 +123,19 @@ do repositorio e compartilhe-o somente com os integrantes autorizados.
 1. Acesse https://render.com e conecte o repositorio do grupo.
 2. Crie um **Web Service**, selecione o repositorio e a branch com os ajustes.
 3. Selecione o ambiente **Docker**, com o `Dockerfile` na raiz, e o plano **Free**.
+   Nao crie um **Static Site** nem publique pelo GitHub Pages: esses servicos
+   apenas servem arquivos e nao executam a API Java necessaria para cadastro e login.
 4. Configure as variaveis abaixo em **Environment**. Nao cole segredos no codigo.
 5. Configure o health check para `/usuarios/teste` e inicie o deploy.
 
 Alternativamente, use **New > Blueprint** com o `render.yaml` deste repositorio.
-Ele ja define o plano Free e solicita as variaveis que nao devem ser salvas no Git.
+Ele ja define o Web Service Docker no plano Free e solicita as variaveis que
+nao devem ser salvas no Git. Ao abrir o endereco raiz, a aplicacao encaminha
+para `/log.html`.
+
+Para bancos existentes, execute tambem `database/06_prova_estudante_opcional.sql`
+uma unica vez antes de publicar a nova versao. Assim o cadastro nao depende do
+acervo de provas; as questoes podem ser importadas depois.
 
 | Variavel | Valor |
 | --- | --- |

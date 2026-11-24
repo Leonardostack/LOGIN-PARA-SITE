@@ -15,8 +15,8 @@ public class CadastroController {
 
     private final EstudanteRepository estudanteRepository;
 
-    public CadastroController() {
-        this.estudanteRepository = new EstudanteRepository();
+    public CadastroController(EstudanteRepository estudanteRepository) {
+        this.estudanteRepository = estudanteRepository;
     }
 
     @PostMapping
@@ -40,20 +40,12 @@ public class CadastroController {
             return resposta;
         }
 
-        // A prova inicial atende a FK legada; a selecao semanal mistura o acervo ETEC.
-        Integer idProva = estudanteRepository.provaInicial();
-        if (idProva == null) {
-            resposta.put("sucesso", false);
-            resposta.put("mensagem", "O acervo ainda nao esta disponivel. Tente novamente mais tarde.");
-            return resposta;
-        }
-
         Estudante estudante =
                 estudanteRepository.cadastrar(
                         nome,
                         email,
                         senha,
-                        idProva
+                        null
                 );
 
         if (estudante == null) {

@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS disciplina (
 CREATE TABLE IF NOT EXISTS estudante (
     id_estudante INT NOT NULL AUTO_INCREMENT,
     id_usuario INT NOT NULL,
-    id_prova INT NOT NULL,
+    id_prova INT DEFAULT NULL,
     objetivo_prova VARCHAR(20) DEFAULT NULL,
     PRIMARY KEY (id_estudante),
     KEY id_usuario (id_usuario),
