@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Login Roxo V7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ícones (estilo Lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  </defs>
+</svg>
+
+<div class="wall" aria-hidden="true">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#3b1a78" stop-opacity="0"/>
+        <stop offset=".3" stop-color="#8b3df5"/>
+        <stop offset=".62" stop-color="#d9b8ff"/>
+        <stop offset="1" stop-color="#5b21b6" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0f0a1a"/>
+        <stop offset=".4" stop-color="#5a4a85"/>
+        <stop offset=".7" stop-color="#1c1430"/>
+        <stop offset="1" stop-color="#08050f"/>
+      </linearGradient>
+      <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+      <filter id="soft2" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+    </defs>
+    <rect width="1440" height="900" fill="#07050d"/>
+    <g class="drift">
+      <path d="M-160 230 C 240 40, 560 560, 960 400 S 1500 120, 1700 250" fill="none" stroke="url(#gSteel)" stroke-width="170" opacity=".95"/>
+      <path d="M-160 190 C 240 0, 560 520, 960 360 S 1500 80, 1700 210" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="3"/>
+      <path d="M-200 880 C 200 640, 640 1000, 1000 760 S 1500 520, 1700 640" fill="none" stroke="url(#gSteel)" stroke-width="140" opacity=".9"/>
+      <path d="M700 -60 C 900 140, 1200 120, 1520 -20" fill="none" stroke="url(#gGold)" stroke-width="40" filter="url(#soft)" opacity=".5"/>
+      <path d="M-180 640 C 160 360, 520 860, 900 560 S 1380 260, 1700 420" fill="none" stroke="url(#gGold)" stroke-width="120" filter="url(#soft)" opacity=".6"/>
+      <path d="M-180 640 C 160 360, 520 860, 900 560 S 1380 260, 1700 420" fill="none" stroke="url(#gGold)" stroke-width="30" filter="url(#soft2)" opacity=".95"/>
+      <path d="M-180 640 C 160 360, 520 860, 900 560 S 1380 260, 1700 420" fill="none" stroke="#f1e4ff" stroke-width="2" opacity=".9"/>
+      <path d="M-180 640 C 160 360, 520 860, 900 560 S 1380 260, 1700 420" transform="translate(0 20)" fill="none" stroke="#b58cff" stroke-width="1.5" opacity=".5"/>
+      <path d="M-180 640 C 160 360, 520 860, 900 560 S 1380 260, 1700 420" transform="translate(0 -24)" fill="none" stroke="#b58cff" stroke-width="1.5" opacity=".4"/>
+    </g>
+  </svg>
+</div>
+
+<main class="stage">
+  <svg class="shard tl" viewBox="0 0 56 56" aria-hidden="true"><path d="M4 4H38L4 38Z"/></svg>
+  <svg class="shard br" viewBox="0 0 56 56" aria-hidden="true"><path d="M4 4H38L4 38Z"/></svg>
+
+  <section class="card" id="card" data-mode="login" data-phase="idle" aria-label="Acesso à conta">
+    <div class="forms">
+
+      <!-- ===== LOGIN ===== -->
+      <form id="loginForm" class="form" novalidate aria-labelledby="loginTitle"
+            data-loading="Entrando…">
+        <header class="head reveal" style="--i:0">
+          <h1 id="loginTitle" tabindex="-1">Bem-vindo <em>de volta</em></h1>
+          <p class="sub">Digite suas credenciais para acessar sua conta segura</p>
+        </header>
+
+        <div class="field reveal" style="--i:1">
+          <label for="loginEmail">Endereço de e-mail</label>
+          <div class="control">
+            <input id="loginEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nome@dominio.com" aria-describedby="loginEmail-err">
+            <svg class="i ico" aria-hidden="true"><use href="#i-mail"/></svg>
+          </div>
+          <p class="err" id="loginEmail-err" aria-live="polite"></p>
+        </div>
+
+        <div class="field reveal" style="--i:2">
+          <label for="loginPassword">Senha</label>
+          <div class="control">
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="••••••••••••" aria-describedby="loginPassword-err">
+            <svg class="i ico" aria-hidden="true"><use href="#i-lock"/></svg>
+            <button type="button" class="eye" data-reveal="loginPassword" aria-label="Mostrar senha" aria-pressed="false">
+              <svg class="i show" aria-hidden="true"><use href="#i-eye"/></svg>
+              <svg class="i hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+            </button>
+          </div>
+          <p class="err" id="loginPassword-err" aria-live="polite"></p>
+        </div>
+
+        <div class="opts reveal" style="--i:3">
+          <label class="check"><input type="checkbox" id="remember" checked> <span>Lembrar de mim</span></label>
+          <button type="button" class="link" data-note="A redefinição de senha não está conectada nesta demonstração.">Esqueci a senha</button>
+        </div>
+
+        <button type="submit" class="btn btn-primary reveal" style="--i:4">
+          <span class="label">Entrar</span>
+          <svg class="i arrow" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <span class="spin" aria-hidden="true"></span>
+        </button>
+
+        <p class="status" role="status"></p>
+
+        <div class="or reveal" style="--i:5">ou continue com</div>
+        <div class="social reveal" style="--i:6">
+          <button type="button" class="btn btn-social" data-note="O login com Google não está conectado nesta demonstração.">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.46a5.52 5.52 0 0 1-2.4 3.62v3h3.87c2.27-2.09 3.59-5.17 3.59-8.81z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.87-3c-1.07.72-2.45 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.09A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.9 12c0-.79.14-1.56.37-2.28V6.63H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.37l4-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.27 6.63l4 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+            Google
+          </button>
+          <button type="button" class="btn btn-social" data-note="O login com Apple não está conectado nesta demonstração.">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            Apple
+          </button>
+        </div>
+
+        <p class="foot reveal" style="--i:7">Não tem uma conta? <button type="button" class="link strong" data-go="signup">Cadastre-se</button></p>
+      </form>
+
+      <!-- ===== CADASTRO ===== -->
+      <form id="signupForm" class="form" novalidate inert aria-hidden="true" aria-labelledby="signupTitle"
+            data-loading="Criando conta…">
+        <header class="head reveal" style="--i:0">
+          <h1 id="signupTitle" tabindex="-1">Criar <em>conta</em></h1>
+          <p class="sub">Junte-se a nós e acesse seu espaço de trabalho seguro</p>
+        </header>
+
+        <div class="field reveal" style="--i:1">
+          <label for="signupName">Nome completo</label>
+          <div class="control">
+            <input id="signupName" name="name" type="text" autocomplete="name" placeholder="Maria Souza" aria-describedby="signupName-err">
+            <svg class="i ico" aria-hidden="true"><use href="#i-user"/></svg>
+          </div>
+          <p class="err" id="signupName-err" aria-live="polite"></p>
+        </div>
+
+        <div class="field reveal" style="--i:2">
+          <label for="signupEmail">Endereço de e-mail</label>
+          <div class="control">
+            <input id="signupEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nome@dominio.com" aria-describedby="signupEmail-err">
+            <svg class="i ico" aria-hidden="true"><use href="#i-mail"/></svg>
+          </div>
+          <p class="err" id="signupEmail-err" aria-live="polite"></p>
+        </div>
+
+        <div class="pair reveal" style="--i:3">
+          <div class="field">
+            <label for="signupPassword">Senha</label>
+            <div class="control">
+              <input id="signupPassword" name="password" type="password" autocomplete="new-password" placeholder="••••••••" aria-describedby="signupPassword-err">
+              <svg class="i ico" aria-hidden="true"><use href="#i-lock"/></svg>
+              <button type="button" class="eye" data-reveal="signupPassword" aria-label="Mostrar senha" aria-pressed="false">
+                <svg class="i show" aria-hidden="true"><use href="#i-eye"/></svg>
+                <svg class="i hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="err" id="signupPassword-err" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="signupConfirm">Confirmar senha</label>
+            <div class="control">
+              <input id="signupConfirm" name="confirm" type="password" autocomplete="new-password" placeholder="••••••••" aria-describedby="signupConfirm-err">
+              <svg class="i ico" aria-hidden="true"><use href="#i-lock"/></svg>
+              <button type="button" class="eye" data-reveal="signupConfirm" aria-label="Mostrar senha" aria-pressed="false">
+                <svg class="i show" aria-hidden="true"><use href="#i-eye"/></svg>
+                <svg class="i hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="err" id="signupConfirm-err" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="field reveal" style="--i:4">
+          <label class="check">
+            <input type="checkbox" id="signupTerms" aria-describedby="signupTerms-err">
+            <span>Li e concordo com os <button type="button" class="link" data-note="Os Termos não estão incluídos nesta demonstração.">Termos</button> e a <button type="button" class="link" data-note="A Política de Privacidade não está incluída nesta demonstração.">Política de Privacidade</button></span>
+          </label>
+          <p class="err" id="signupTerms-err" aria-live="polite"></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary reveal" style="--i:5">
+          <span class="label">Criar conta</span>
+          <svg class="i arrow" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <span class="spin" aria-hidden="true"></span>
+        </button>
+
+        <p class="status" role="status"></p>
+
+        <div class="social reveal" style="--i:6">
+          <button type="button" class="btn btn-social" data-note="O login com Google não está conectado nesta demonstração.">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.46a5.52 5.52 0 0 1-2.4 3.62v3h3.87c2.27-2.09 3.59-5.17 3.59-8.81z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.87-3c-1.07.72-2.45 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.09A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.9 12c0-.79.14-1.56.37-2.28V6.63H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.37l4-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.27 6.63l4 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+            Google
+          </button>
+          <button type="button" class="btn btn-social" data-note="O login com Apple não está conectado nesta demonstração.">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            Apple
+          </button>
+        </div>
+
+        <p class="foot reveal" style="--i:7">Já tem uma conta? <button type="button" class="link strong" data-go="login">Entrar</button></p>
+      </form>
+    </div>
+
+    <!-- painéis da transição -->
+    <div class="panel a"></div>
+    <div class="panel b"></div>
+    <svg class="seam" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="seamG" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#b58cff" stop-opacity="0"/>
+          <stop offset=".5" stop-color="#e9dcff"/>
+          <stop offset="1" stop-color="#b58cff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="100" y1="0" x2="0" y2="100" stroke="url(#seamG)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <svg class="logo" viewBox="-8 -8 78 78" aria-hidden="true">
+      <g class="half h1"><polygon class="ring" points="0,0 52,0 0,52"/><polygon class="core" points="0,0 52,0 0,52"/></g>
+      <g class="half h2"><polygon class="ring" points="62,8 62,62 8,62"/><polygon class="core" points="62,8 62,62 8,62"/></g>
+    </svg>
+
+    <i class="edge tl"></i>
+    <i class="edge br"></i>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
